@@ -16,7 +16,9 @@ if (Meteor.isClient) {
 
       Tasks.insert({
         text: text,
-        createdAt: new Date() // current time
+        createdAt: new Date(), 				// current time
+        owner: Meteor.userId(),           	// _id of logged in user
+  		username: Meteor.user().username 	// username of logged in user
       });
 
       // Clear form
@@ -24,7 +26,10 @@ if (Meteor.isClient) {
 
       // Prevent default form submit
       return false;
-    }
+    },
+    "change .hide-completed input": function (event) {
+	  Session.set("hideCompleted", event.target.checked);
+	}
   });
 
   Template.task.events({
@@ -36,6 +41,33 @@ if (Meteor.isClient) {
       Tasks.remove(this._id);
     }
   });
+
+  Template.body.helpers({
+  	tasks: function () {
+	    if (Session.get("hideCompleted")) {
+	      // If hide completed is checked, filter tasks
+	      return Tasks.find({checked: {$ne: true}}, {sort: {createdAt: -1}});
+	    } else {
+	      // Otherwise, return all of the tasks
+	      return Tasks.find({}, {sort: {createdAt: -1}});
+	    }
+	  },
+   	hideCompleted: function () {
+	    return Session.get("hideCompleted");
+	},
+	doneCount: function () {
+		var checked = Tasks.find({checked: true});
+		var done = 0;
+		done = checked.count();
+		return done;
+	},
+	incompleteCount: function () {
+		var result = Tasks.find({}).count();
+		var incompleteCount = Tasks.find({checked: false});
+		result = incompleteCount.count();
+		return result;
+	}
+	});
 
   Template.task.helpers({
       date: function(){
@@ -73,4 +105,8 @@ if (Meteor.isClient) {
         return result;
       }
   });
+
+	Accounts.ui.config({
+	  passwordSignupFields: "USERNAME_ONLY"
+	});
 }
