@@ -33,6 +33,8 @@ header {
 
 #login-buttons {
   display: block;
+  float: right;
+  text-decoration: none;
 }
 
 h1 {

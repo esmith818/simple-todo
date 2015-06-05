@@ -29,11 +29,15 @@ if (Meteor.isClient) {
     },
     "change .hide-completed input": function (event) {
 	  Session.set("hideCompleted", event.target.checked);
+	},
+	"click .selectall-checked": function (event) {
+	  Tasks.find().collection.update({}, {$set: {checked: event.target.checked}},{multi: true})
 	}
   });
 
   Template.task.events({
     "click .toggle-checked": function () {
+    	
       // Set the checked property to the opposite of its current value
       Tasks.update(this._id, {$set: {checked: ! this.checked}});
     },

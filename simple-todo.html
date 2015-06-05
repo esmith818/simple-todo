@@ -5,22 +5,30 @@
 <body>
   <div class="container">
     <header>
+
+    {{> loginButtons align="right"}}<br>
+      
       <h1>Todo List ({{incompleteCount}})</h1>
+	
 		{{#if doneCount}}
-		<label class="hide-completed">
-		  <input type="checkbox" checked="{{hideCompleted}}" />
-		  	Hide {{doneCount}} Completed Tasks
-		</label>
+			<label class="hide-completed">
+			  <input type="checkbox" checked="{{hideCompleted}}" />
+			  	Hide {{doneCount}} Completed Tasks
+			</label>
 		{{/if}}
 		
-		{{> loginButtons}}
-		{{#if currrentUser}}
+		{{#if currentUser}}
 	      <form class="new-task">
 	        <input type="text" name="text" placeholder="Type to add new tasks" />
 	      </form>
 	    {{/if}}
     </header>
-
+    <ul>
+    	<label class="select-all">
+			  <input type="checkbox" checked="{{selectall}}" class="selectall-checked" />
+			  	Select all
+			</label>
+	</ul>
     <ul>
       {{#each tasks}}
         {{> task}}
