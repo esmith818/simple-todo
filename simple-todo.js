@@ -39,6 +39,13 @@ if (Meteor.isClient) {
 
   Template.task.helpers({
       date: function(){
+      	function pad(num,pad){
+      		var num = num.toString().split('');
+      		while (num.length < pad){
+      			num.unshift('0');
+      		}
+      		return num.join('');
+      	}
         var date = this.createdAt;
         // date
         var month = ["January",
@@ -53,14 +60,13 @@ if (Meteor.isClient) {
                      "October",
                      "November",
                      "December"][date.getMonth()];
-        var day = date.getDay();
-        var year = date.getFullYear();
-        var result = [month, day, year].join(" ");
+        var result = [month, date.getDay(), date.getFullYear()].join(" ");
+        
         // time
         var hr = date.getHours();
         var md = (hr > 11) ? "PM" : "AM";
         hr = hr%12 || 12;
-        var min = date.getMinutes();
+        var min = pad(date.getMinutes(),2);
         var time = hr + ":" + min + ' ' + md;
         
         result += " at " + time;
