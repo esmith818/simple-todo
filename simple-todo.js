@@ -18,7 +18,7 @@ if (Meteor.isClient) {
         text: text,
         createdAt: new Date(), 				// current time
         owner: Meteor.userId(),           	// _id of logged in user
-  		username: Meteor.user().username 	// username of logged in user
+  		  username: Meteor.user().username 	// username of logged in user
       });
 
       // Clear form
@@ -31,15 +31,14 @@ if (Meteor.isClient) {
 	  Session.set("hideCompleted", event.target.checked);
 	},
 	"click .selectall-checked": function (event) {
-	  Tasks.find().collection.update({}, {$set: {checked: event.target.checked}},{multi: true})
-	}
+      Tasks.find().collection.update({}, {$set: {checked: event.target.checked}},{multi: true});
+  }
   });
 
   Template.task.events({
     "click .toggle-checked": function () {
-    	
       // Set the checked property to the opposite of its current value
-      Tasks.update(this._id, {$set: {checked: ! this.checked}});
+      Tasks.find().collection.update(this._id, {$set: {checked: ! this.checked}});
     },
     "click .delete": function () {
       Tasks.remove(this._id);
