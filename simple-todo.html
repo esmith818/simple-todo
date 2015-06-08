@@ -23,14 +23,19 @@
 	      </form>
 	    {{/if}}
     </header>
-    {{#if incompleteCount}}
+    
     <ul>
-    	<li class="selectall"><label class="select-all">
+    	<li class="selectall">
+    		
+    		<label class="select-all">
+			{{#if incompleteCount}}
 			  <input type="checkbox" checked="{{selectall}}" class="selectall-checked" />
 			  	<span class="text"><strong>Select all</strong></span>
-			</label></li>
+			{{/if}}
+			</label>
+			
+		</li>
 	</ul>
-	{{/if}}
     <ul>
       {{#each tasks}}
         {{> task}}
