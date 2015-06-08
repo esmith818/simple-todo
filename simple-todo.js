@@ -66,7 +66,7 @@ if (Meteor.isClient) {
 	},
 	incompleteCount: function () {
 		var result = Tasks.find({}).count();
-		var incompleteCount = Tasks.find({checked: false});
+		var incompleteCount = Tasks.find({checked: {$ne: true}});
 		result = incompleteCount.count();
 		return result;
 	}
